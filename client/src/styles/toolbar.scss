@@ -1,0 +1,89 @@
+@import "./variables.scss";
+
+.toolbar,
+.setting-bar {
+  height: var(--toolbar-height);
+  background-color: white;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  box-shadow: 0 4px 5px gray;
+
+  &__btn {
+    width: 25px;
+    height: 25px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-color: white;
+    margin-left: 10px;
+  }
+
+  // [type="color"] {
+  //   margin-left: 10px;
+  //   border: none;
+  //   border-radius: 5px;
+  //   appearance: none;
+  //   -moz-appearance: none;
+  //   -webkit-appearance: none;
+  // }
+  #style1 {
+    margin-left: 10px;
+    appearance: none;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  #style1::-webkit-color-swatch {
+    border-radius: 12%;
+    border: none;
+    box-shadow: 0 0 2px;
+  }
+  #style1::-moz-color-swatch {
+    border-radius: 12%;
+    border: none;
+
+    box-shadow: 0 0 2px;
+  }
+
+  .brush {
+    background-image: url("../assets/img/brush.svg");
+  }
+  .rect {
+    background-image: url("../assets/img/rect.svg");
+  }
+  .circle {
+    background-image: url("../assets/img/circle.svg");
+  }
+  .eraser {
+    background-image: url("../assets/img/eraser.svg");
+  }
+  .line {
+    background-image: url("../assets/img/line.svg");
+  }
+  .undo {
+    margin-left: auto;
+    background-image: url("../assets/img/undo.svg");
+  }
+  .redo {
+    background-image: url("../assets/img/redo.svg");
+  }
+  .save {
+    background-image: url("../assets/img/save.svg");
+    margin-right: 10px;
+  }
+}
+
+.toolbar {
+  z-index: 1;
+}
+
+.setting-bar {
+  top: var(--toolbar-height);
+}

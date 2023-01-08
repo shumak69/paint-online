@@ -1,0 +1,10 @@
+@import "./variables.scss";
+
+#line-width,
+#stroke-color {
+  margin-left: 10px;
+}
+
+[for="stroke-color"] {
+  margin-left: 15px;
+}
