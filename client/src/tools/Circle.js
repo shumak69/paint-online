@@ -17,7 +17,7 @@ export default class Brush extends Tool {
   }
   mouseDownHandler(e) {
     this.mouseDown = true;
-    this.cxt.beginPath();
+    this.ctx.beginPath();
     this.startX = e.pageX - e.target.offsetLeft;
     this.startY = e.pageY - e.target.offsetTop;
     this.saved = this.canvas.toDataURL();
@@ -35,12 +35,12 @@ export default class Brush extends Tool {
     const img = new Image();
     img.src = this.saved;
     img.onload = () => {
-      this.cxt.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.cxt.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-      this.cxt.beginPath();
-      this.cxt.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2);
-      this.cxt.fill();
-      this.cxt.stroke(); //обводка
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.beginPath();
+      this.ctx.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.stroke(); //обводка
     };
   }
 }

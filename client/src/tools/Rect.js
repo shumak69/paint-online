@@ -1,8 +1,8 @@
 import Tool from "./Tool";
 
 export default class Brush extends Tool {
-  constructor(canvas) {
-    super(canvas);
+  constructor(canvas, socket, id) {
+    super(canvas, socket, id);
     this.listen();
   }
 
@@ -14,10 +14,24 @@ export default class Brush extends Tool {
 
   mouseUpHandler(e) {
     this.mouseDown = false;
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "rect",
+          x: this.startX,
+          y: this.startY,
+          width: this.width,
+          height: this.height,
+          color: this.ctx.fillStyle,
+        },
+      })
+    );
   }
   mouseDownHandler(e) {
     this.mouseDown = true;
-    this.cxt.beginPath();
+    this.ctx.beginPath();
     this.startX = e.pageX - e.target.offsetLeft;
     this.startY = e.pageY - e.target.offsetTop;
     this.saved = this.canvas.toDataURL();
@@ -26,9 +40,9 @@ export default class Brush extends Tool {
     if (this.mouseDown) {
       let currentX = e.pageX - e.target.offsetLeft;
       let currentY = e.pageY - e.target.offsetTop;
-      let width = currentX - this.startX;
-      let height = currentY - this.startY;
-      this.draw(this.startX, this.startY, width, height);
+      this.width = currentX - this.startX;
+      this.height = currentY - this.startY;
+      this.draw(this.startX, this.startY, this.width, this.height);
     }
   }
 
@@ -36,12 +50,21 @@ export default class Brush extends Tool {
     const img = new Image();
     img.src = this.saved;
     img.onload = () => {
-      this.cxt.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.cxt.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-      this.cxt.beginPath();
-      this.cxt.rect(x, y, w, h);
-      this.cxt.fill();
-      this.cxt.stroke(); //обводка
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.beginPath();
+      this.ctx.rect(x, y, w, h);
+      this.ctx.fill();
+      this.ctx.stroke();
     };
+  }
+
+  static staticDraw(ctx, x, y, w, h, color) {
+    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
+    ctx.beginPath();
+    ctx.rect(x, y, w, h);
+    ctx.fill();
+    ctx.stroke(); //обводка
   }
 }

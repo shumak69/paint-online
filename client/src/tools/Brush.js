@@ -1,8 +1,8 @@
 import Tool from "./Tool";
 
 export default class Brush extends Tool {
-  constructor(canvas) {
-    super(canvas);
+  constructor(canvas, socket, id) {
+    super(canvas, socket, id);
     this.listen();
   }
 
@@ -14,22 +14,47 @@ export default class Brush extends Tool {
 
   mouseUpHandler(e) {
     this.mouseDown = false;
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "finish",
+        },
+      })
+    );
   }
   mouseDownHandler(e) {
-    console.log(e.pageX, e.target.offsetLeft);
     this.mouseDown = true;
-    this.cxt.beginPath();
-    this.cxt.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop); // mouse position in window minus left margin of canvas
+    this.ctx.beginPath();
+    this.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop); // mouse position in window minus left margin of canvas
   }
   mouseMoveHandler(e) {
     if (this.mouseDown) {
-      this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+      // this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+      this.socket.send(
+        JSON.stringify({
+          method: "draw",
+          id: this.id,
+          figure: {
+            type: "brush",
+            x: e.pageX - e.target.offsetLeft,
+            y: e.pageY - e.target.offsetTop,
+            settings: {
+              color: this.ctx.strokeStyle,
+              lineWidth: this.ctx.lineWidth,
+            },
+          },
+        })
+      );
     }
   }
 
-  draw(x, y) {
-    this.cxt.lineTo(x, y);
-    this.cxt.stroke();
-    console.log("draw brush");
+  static draw(ctx, x, y, settings) {
+    ctx.beginPath();
+    ctx.lineWidth = settings.lineWidth;
+    ctx.strokeStyle = settings.color;
+    ctx.lineTo(x, y);
+    ctx.stroke();
   }
 }

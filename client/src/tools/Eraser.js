@@ -14,14 +14,14 @@ export default class Brush extends Tool {
 
   mouseUpHandler(e) {
     this.mouseDown = false;
-    this.cxt.strokeStyle = this.previousColor;
+    this.ctx.strokeStyle = this.previousColor;
   }
   mouseDownHandler(e) {
-    this.previousColor = this.cxt.strokeStyle;
+    this.previousColor = this.ctx.strokeStyle;
     console.log(e.pageX, e.target.offsetLeft);
     this.mouseDown = true;
-    this.cxt.beginPath();
-    this.cxt.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop); // mouse position in window minus left margin of canvas
+    this.ctx.beginPath();
+    this.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop); // mouse position in window minus left margin of canvas
   }
   mouseMoveHandler(e) {
     if (this.mouseDown) {
@@ -30,9 +30,9 @@ export default class Brush extends Tool {
   }
 
   draw(x, y) {
-    this.cxt.strokeStyle = "#ffffff";
-    this.cxt.lineTo(x, y);
-    this.cxt.stroke();
+    this.ctx.strokeStyle = "#ffffff";
+    this.ctx.lineTo(x, y);
+    this.ctx.stroke();
     console.log("draw brush");
   }
 }

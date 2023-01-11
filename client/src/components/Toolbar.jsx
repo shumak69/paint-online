@@ -14,15 +14,26 @@ function Toolbar() {
     toolState.setFillColor(e.target.value);
   };
 
+  const download = () => {
+    const dataUrl = canvasState.canvas.toDataURL();
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = canvasState.sessionid + ".jpg";
+    console.log(dataUrl);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
     <div className="toolbar">
       <button
         className="toolbar__btn brush"
-        onClick={() => toolState.setTool(new Brush(canvasState.canvas))}
+        onClick={() => toolState.setTool(new Brush(canvasState.canvas, canvasState.socket, canvasState.sessionid))}
       ></button>
       <button
         className="toolbar__btn rect"
-        onClick={() => toolState.setTool(new Rect(canvasState.canvas))}
+        onClick={() => toolState.setTool(new Rect(canvasState.canvas, canvasState.socket, canvasState.sessionid))}
       ></button>
       <button
         className="toolbar__btn circle"
@@ -39,7 +50,7 @@ function Toolbar() {
       <input type="color" defaultValue="#43da86" id="style1" onChange={(e) => changeColor(e)} />
       <button className="toolbar__btn undo" onClick={() => canvasState.undo()}></button>
       <button className="toolbar__btn redo" onClick={() => canvasState.redo()}></button>
-      <button className="toolbar__btn save"></button>
+      <button className="toolbar__btn save" onClick={() => download()}></button>
     </div>
   );
 }

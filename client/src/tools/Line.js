@@ -19,8 +19,8 @@ export default class Brush extends Tool {
     this.startX = e.pageX - e.target.offsetLeft;
     this.startY = e.pageY - e.target.offsetTop;
     this.mouseDown = true;
-    this.cxt.beginPath();
-    this.cxt.moveTo(this.startX, this.startY); // mouse position in window minus left margin of canvas
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.startX, this.startY); // mouse position in window minus left margin of canvas
     this.saved = this.canvas.toDataURL();
   }
   mouseMoveHandler(e) {
@@ -33,13 +33,12 @@ export default class Brush extends Tool {
     const img = new Image();
     img.src = this.saved;
     img.onload = () => {
-      this.cxt.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.cxt.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-      this.cxt.beginPath();
-      this.cxt.moveTo(this.startX, this.startY);
-      this.cxt.lineTo(x, y);
-      this.cxt.stroke();
-      console.log("draw brush");
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.startX, this.startY);
+      this.ctx.lineTo(x, y);
+      this.ctx.stroke();
     };
   }
 }
