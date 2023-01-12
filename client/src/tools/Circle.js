@@ -1,8 +1,8 @@
 import Tool from "./Tool";
 
 export default class Brush extends Tool {
-  constructor(canvas) {
-    super(canvas);
+  constructor(canvas, socket, id) {
+    super(canvas, socket, id);
     this.listen();
   }
 
@@ -14,6 +14,28 @@ export default class Brush extends Tool {
 
   mouseUpHandler(e) {
     this.mouseDown = false;
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "circle",
+          x: this.startX,
+          y: this.startY,
+          radius: this.radius,
+          color: this.ctx.fillStyle,
+        },
+      })
+    );
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "finish",
+        },
+      })
+    );
   }
   mouseDownHandler(e) {
     this.mouseDown = true;
@@ -26,8 +48,8 @@ export default class Brush extends Tool {
     if (this.mouseDown) {
       let currentX = e.pageX - e.target.offsetLeft;
       let currentY = e.pageY - e.target.offsetTop;
-      let radius = Math.sqrt((currentX - this.startX) ** 2 + (currentY - this.startY) ** 2);
-      this.draw(this.startX, this.startY, radius);
+      this.radius = Math.sqrt((currentX - this.startX) ** 2 + (currentY - this.startY) ** 2);
+      this.draw(this.startX, this.startY, this.radius);
     }
   }
 
@@ -42,5 +64,14 @@ export default class Brush extends Tool {
       this.ctx.fill();
       this.ctx.stroke(); //обводка
     };
+  }
+
+  static staticDraw(ctx, x, y, radius, color) {
+    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
+    ctx.beginPath();
+    ctx.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke(); //обводка
   }
 }

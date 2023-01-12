@@ -5,6 +5,9 @@ import toolState from "../store/toolState";
 import "../styles/canvas.scss";
 import Brush from "../tools/Brush";
 import Rect from "../tools/Rect";
+import Circle from "../tools/Circle";
+import Eraser from "../tools/Eraser";
+import Line from "../tools/Line";
 import { Modal, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -61,7 +64,6 @@ function Canvas() {
   }, [canvasState.username]);
 
   const drawHandler = (msg) => {
-    console.log(msg);
     const figure = msg.figure;
     const ctx = canvasRef.current.getContext("2d");
     switch (figure.type) {
@@ -71,7 +73,23 @@ function Canvas() {
       case "rect":
         Rect.staticDraw(ctx, figure.x, figure.y, figure.width, figure.height, figure.color);
         break;
+      case "circle":
+        Circle.staticDraw(ctx, figure.x, figure.y, figure.radius, figure.color);
+        break;
+      case "eraser":
+        Eraser.draw(ctx, figure.x, figure.y, figure.settings);
+        break;
+      case "line":
+        Line.staticDraw(ctx, figure.x, figure.y, figure.startX, figure.startY, figure.settings);
+        break;
       case "finish":
+        if ("eraser" in figure) {
+          ctx.strokeStyle = figure.eraser;
+        }
+        toolState.setLineWidth(ctx.lineWidth);
+        toolState.setStrokeColor(ctx.strokeStyle);
+        console.log(ctx.fillStyle);
+        toolState.setFillColor(ctx.fillStyle);
         ctx.beginPath();
         break;
       default:

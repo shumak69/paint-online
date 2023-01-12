@@ -26,7 +26,7 @@ export default class Brush extends Tool {
   }
   mouseDownHandler(e) {
     this.mouseDown = true;
-    this.ctx.beginPath();
+    // this.ctx.beginPath();
     this.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop); // mouse position in window minus left margin of canvas
   }
   mouseMoveHandler(e) {
@@ -51,7 +51,7 @@ export default class Brush extends Tool {
   }
 
   static draw(ctx, x, y, settings) {
-    ctx.beginPath();
+    // ctx.beginPath();
     ctx.lineWidth = settings.lineWidth;
     ctx.strokeStyle = settings.color;
     ctx.lineTo(x, y);

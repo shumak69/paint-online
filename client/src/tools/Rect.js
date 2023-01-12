@@ -28,6 +28,15 @@ export default class Brush extends Tool {
         },
       })
     );
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "finish",
+        },
+      })
+    );
   }
   mouseDownHandler(e) {
     this.mouseDown = true;

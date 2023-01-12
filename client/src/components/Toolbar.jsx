@@ -9,6 +9,7 @@ import Line from "../tools/Line";
 import { observer } from "mobx-react-lite";
 
 function Toolbar() {
+  console.log(toolState.getFillColor);
   const changeColor = (e) => {
     toolState.setStrokeColor(e.target.value);
     toolState.setFillColor(e.target.value);
@@ -37,17 +38,21 @@ function Toolbar() {
       ></button>
       <button
         className="toolbar__btn circle"
-        onClick={() => toolState.setTool(new Circle(canvasState.canvas))}
+        onClick={() =>
+          toolState.setTool(new Circle(canvasState.canvas, canvasState.socket, canvasState.sessionid))
+        }
       ></button>
       <button
         className="toolbar__btn eraser"
-        onClick={() => toolState.setTool(new Eraser(canvasState.canvas))}
+        onClick={() =>
+          toolState.setTool(new Eraser(canvasState.canvas, canvasState.socket, canvasState.sessionid))
+        }
       ></button>
       <button
         className="toolbar__btn line"
-        onClick={() => toolState.setTool(new Line(canvasState.canvas))}
+        onClick={() => toolState.setTool(new Line(canvasState.canvas, canvasState.socket, canvasState.sessionid))}
       ></button>
-      <input type="color" defaultValue="#43da86" id="style1" onChange={(e) => changeColor(e)} />
+      <input type="color" value={toolState.getFillColor} id="style1" onChange={(e) => changeColor(e)} />
       <button className="toolbar__btn undo" onClick={() => canvasState.undo()}></button>
       <button className="toolbar__btn redo" onClick={() => canvasState.redo()}></button>
       <button className="toolbar__btn save" onClick={() => download()}></button>
@@ -55,4 +60,4 @@ function Toolbar() {
   );
 }
 
-export default Toolbar;
+export default observer(Toolbar);
