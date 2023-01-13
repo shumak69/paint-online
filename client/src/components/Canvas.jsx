@@ -21,7 +21,7 @@ function Canvas() {
   useEffect(() => {
     canvasState.setCanvas(canvasRef.current);
     let ctx = canvasRef.current.getContext("2d");
-    axios.get(`http://paint-online-websocket.glitch.me/image?id=${params.id}`).then((res) => {
+    axios.get(`https://paint-online-websocket.glitch.me/image?id=${params.id}`).then((res) => {
       const img = new Image();
       img.src = res.data;
       img.onload = () => {
@@ -100,7 +100,7 @@ function Canvas() {
   const mouseUpHandler = () => {
     canvasState.pushToUndo(canvasRef.current.toDataURL());
     axios
-      .post(`http://paint-online-websocket.glitch.me/image?id=${params.id}`, {
+      .post(`https://paint-online-websocket.glitch.me/image?id=${params.id}`, {
         img: canvasRef.current.toDataURL(),
       })
       .then((res) => console.log(res.data));
