@@ -51,7 +51,11 @@ export default class Brush extends Tool {
   }
   mouseMoveHandler(e) {
     if (this.mouseDown) {
+      // if (this.IswithinCanvas(e)) {
+      // this.mouseUpHandler(e);
+      // } else {
       this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+      // }
     }
   }
 

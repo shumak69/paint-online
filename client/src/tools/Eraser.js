@@ -39,20 +39,24 @@ export default class Brush extends Tool {
     // }
     if (this.mouseDown) {
       // this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
-      this.socket.send(
-        JSON.stringify({
-          method: "draw",
-          id: this.id,
-          figure: {
-            type: "eraser",
-            x: e.pageX - e.target.offsetLeft,
-            y: e.pageY - e.target.offsetTop,
-            settings: {
-              lineWidth: this.ctx.lineWidth,
+      if (this.IswithinCanvas(e)) {
+        this.mouseUpHandler(e);
+      } else {
+        this.socket.send(
+          JSON.stringify({
+            method: "draw",
+            id: this.id,
+            figure: {
+              type: "eraser",
+              x: e.pageX - e.target.offsetLeft,
+              y: e.pageY - e.target.offsetTop,
+              settings: {
+                lineWidth: this.ctx.lineWidth,
+              },
             },
-          },
-        })
-      );
+          })
+        );
+      }
     }
   }
 

@@ -35,6 +35,9 @@ class ToolState {
   get getFillColor() {
     return this.fillColor;
   }
+  get getTool() {
+    return this.tool;
+  }
 }
 
 export default new ToolState();

@@ -46,10 +46,14 @@ export default class Brush extends Tool {
   }
   mouseMoveHandler(e) {
     if (this.mouseDown) {
-      let currentX = e.pageX - e.target.offsetLeft;
-      let currentY = e.pageY - e.target.offsetTop;
-      this.radius = Math.sqrt((currentX - this.startX) ** 2 + (currentY - this.startY) ** 2);
-      this.draw(this.startX, this.startY, this.radius);
+      if (this.IswithinCanvas(e)) {
+        this.mouseUpHandler(e);
+      } else {
+        let currentX = e.pageX - e.target.offsetLeft;
+        let currentY = e.pageY - e.target.offsetTop;
+        this.radius = Math.sqrt((currentX - this.startX) ** 2 + (currentY - this.startY) ** 2);
+        this.draw(this.startX, this.startY, this.radius);
+      }
     }
   }
 

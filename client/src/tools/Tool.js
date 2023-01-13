@@ -19,6 +19,16 @@ export default class Tool {
     this.ctx.lineWidth = width;
   }
 
+  IswithinCanvas(e) {
+    console.log(e.target.offsetTop + e.target.offsetHeight - e.pageY);
+    return (
+      e.pageX - e.target.offsetLeft <= 2 ||
+      e.pageY - e.target.offsetTop <= 2 ||
+      e.target.offsetLeft + e.target.offsetWidth - e.pageX <= 2 ||
+      e.target.offsetTop + e.target.offsetHeight - e.pageY <= 2
+    );
+  }
+
   destroyEvents() {
     this.canvas.onmousemove = null;
     this.canvas.onmousedown = null;
