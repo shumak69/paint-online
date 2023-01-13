@@ -24,7 +24,11 @@ export default class Brush extends Tool {
           y: this.startY,
           width: this.width,
           height: this.height,
-          color: this.ctx.fillStyle,
+          settings: {
+            fill: this.ctx.fillStyle,
+            lineWidth: this.ctx.lineWidth,
+            color: this.ctx.strokeStyle,
+          },
         },
       })
     );
@@ -72,9 +76,10 @@ export default class Brush extends Tool {
     };
   }
 
-  static staticDraw(ctx, x, y, w, h, color) {
-    ctx.fillStyle = color;
-    ctx.strokeStyle = color;
+  static staticDraw(ctx, x, y, w, h, settings) {
+    ctx.fillStyle = settings.fill;
+    ctx.strokeStyle = settings.color;
+    ctx.lineWidth = settings.lineWidth;
     ctx.beginPath();
     ctx.rect(x, y, w, h);
     ctx.fill();

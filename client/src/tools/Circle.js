@@ -23,7 +23,11 @@ export default class Brush extends Tool {
           x: this.startX,
           y: this.startY,
           radius: this.radius,
-          color: this.ctx.fillStyle,
+          settings: {
+            fill: this.ctx.fillStyle,
+            lineWidth: this.ctx.lineWidth,
+            color: this.ctx.strokeStyle,
+          },
         },
       })
     );
@@ -70,9 +74,10 @@ export default class Brush extends Tool {
     };
   }
 
-  static staticDraw(ctx, x, y, radius, color) {
-    ctx.fillStyle = color;
-    ctx.strokeStyle = color;
+  static staticDraw(ctx, x, y, radius, settings) {
+    ctx.fillStyle = settings.fill;
+    ctx.strokeStyle = settings.color;
+    ctx.lineWidth = settings.lineWidth;
     ctx.beginPath();
     ctx.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2);
     ctx.fill();

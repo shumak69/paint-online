@@ -20,7 +20,6 @@ export default class Tool {
   }
 
   IswithinCanvas(e) {
-    console.log(e.target.offsetTop + e.target.offsetHeight - e.pageY);
     return (
       e.pageX - e.target.offsetLeft <= 2 ||
       e.pageY - e.target.offsetTop <= 2 ||

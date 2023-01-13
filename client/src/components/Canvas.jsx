@@ -71,10 +71,10 @@ function Canvas() {
         Brush.draw(ctx, figure.x, figure.y, figure.settings);
         break;
       case "rect":
-        Rect.staticDraw(ctx, figure.x, figure.y, figure.width, figure.height, figure.color);
+        Rect.staticDraw(ctx, figure.x, figure.y, figure.width, figure.height, figure.settings);
         break;
       case "circle":
-        Circle.staticDraw(ctx, figure.x, figure.y, figure.radius, figure.color);
+        Circle.staticDraw(ctx, figure.x, figure.y, figure.radius, figure.settings);
         break;
       case "eraser":
         Eraser.draw(ctx, figure.x, figure.y, figure.settings);
@@ -86,9 +86,9 @@ function Canvas() {
         if ("eraser" in figure) {
           ctx.strokeStyle = figure.eraser;
         }
+        console.log(ctx.strokeStyle);
         toolState.setLineWidth(ctx.lineWidth);
         toolState.setStrokeColor(ctx.strokeStyle);
-        console.log(ctx.fillStyle);
         toolState.setFillColor(ctx.fillStyle);
         ctx.beginPath();
         break;

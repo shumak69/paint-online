@@ -49,8 +49,6 @@ function Toolbar() {
     document.body.removeChild(a);
   };
 
-  console.log(toolState.getTool instanceof initialTool[0].instance);
-
   return (
     <div className="toolbar">
       {initialTool.map((item) => {
@@ -58,6 +56,7 @@ function Toolbar() {
         const isActive = toolState.getTool instanceof item.instance ? "active" : "";
         return (
           <button
+            key={item.tool}
             className={`toolbar__btn ${item.tool} ${isActive}`}
             onClick={() =>
               toolState.setTool(new item.instance(canvasState.canvas, canvasState.socket, canvasState.sessionid))
