@@ -21,7 +21,7 @@ function Canvas() {
   useEffect(() => {
     canvasState.setCanvas(canvasRef.current);
     let ctx = canvasRef.current.getContext("2d");
-    axios.get(`http://localhost:5000/image?id=${params.id}`).then((res) => {
+    axios.get(`http://paint-online-websocket.glitch.me/image?id=${params.id}`).then((res) => {
       const img = new Image();
       img.src = res.data;
       img.onload = () => {
@@ -33,7 +33,7 @@ function Canvas() {
 
   useEffect(() => {
     if (canvasState.username) {
-      const socket = new WebSocket("ws://localhost:5000/");
+      const socket = new WebSocket("wss://paint-online-websocket.glitch.me/");
       canvasState.setSocket(socket);
       canvasState.setSessionId(params.id);
       toolState.setTool(new Brush(canvasRef.current, socket, params.id));
@@ -100,7 +100,9 @@ function Canvas() {
   const mouseUpHandler = () => {
     canvasState.pushToUndo(canvasRef.current.toDataURL());
     axios
-      .post(`http://localhost:5000/image?id=${params.id}`, { img: canvasRef.current.toDataURL() })
+      .post(`http://paint-online-websocket.glitch.me/image?id=${params.id}`, {
+        img: canvasRef.current.toDataURL(),
+      })
       .then((res) => console.log(res.data));
   };
 
